@@ -108,7 +108,7 @@ app.get('/DownloadContract', function (req, res) {
     ClearExports();
 })
 */
-app.get('/devtest',function(req,res){
+app.post('/devtest',function(req,res){
     res.send("this is what i got: " + req.toString());
 })
 app.put('/', function (req,res) {
