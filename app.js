@@ -109,7 +109,10 @@ app.get('/DownloadContract', function (req, res) {
 })
 */
 app.post('/devtest',function(req,res){
-    res.send("this is what i got: " + req.toString());
+    var request = "";
+    req.query.foreach(a => request += " \n " + a.toString())
+    res.send("this is what i got: " + request);
+
 })
 app.put('/', function (req,res) {
 
