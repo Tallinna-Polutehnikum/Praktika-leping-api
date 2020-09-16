@@ -107,7 +107,7 @@ app.get('/DownloadContract', function (req, res) {
     res.download(path.join(__dirname + "/exports/finalizedContract.docx"))
     ClearExports();
 })
-app.put('/devtest',function(req,res){
+app.post('/devtest',function(req,res){
     req.download(req.body);
 })
 app.put('/', function (req,res) {
