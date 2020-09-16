@@ -107,6 +107,116 @@ app.get('/DownloadContract', function (req, res) {
     res.download(path.join(__dirname + "/exports/finalizedContract.docx"))
     ClearExports();
 })
+app.put('/devtest',function(req,res){
+    req.download(req.body);
+})
+app.put('/', function (req,res) {
+
+    //Student
+    Student_Name = req.body.student_name;
+    Student_Phone = req.body.student_phone_number;
+
+    Student_Group = req.body.student_group;
+    Student_Course = req.body.student_course;
+
+    Student_Address = req.body.student_address;
+    Student_ZipCode = req.body.student_zipcode;
+    Student_City = req.body.student_city;
+
+    //Contract Details
+    ContractNumber = req.body.contract_number;
+
+    var UserInput_StartDates = req.body.practice_date_start;
+    var StartDates = UserInput_StartDates.split("-");
+
+    var LocateStartMonth = StartDates[1] - 1;
+    var StartMonthToText = months_2[LocateStartMonth];
+
+    Practice_DateStart = `” ` + StartDates[2] +  ` ”` + ` ` + StartMonthToText + ` ` + StartDates[0] + ` a.`;
+    console.log(Practice_DateStart)
+
+    var UserInput_EndDates = req.body.practice_date_end;
+    var EndDates = UserInput_EndDates.split("-");
+
+    var LocateEndMonth = EndDates[1] - 1;
+    var EndMonthToText = months_2[LocateEndMonth];
+
+    Practice_DateEnd = `” ` + EndDates[2] +  ` ”` + ` ` + EndMonthToText + ` ` + EndDates[0] + ` a.`;
+    console.log(Practice_DateEnd)
+
+    StartYear = StartDates[0];
+    EndYear = EndDates[0];
+
+    DurationWeeks = req.body.duration_weeks;
+    DurationHours = req.body.duration_hours;
+
+    //Company
+    Company_Name = req.body.company_name;
+    Company_Address = req.body.company_address;
+    Company_ZipCode = req.body.company_zipcode;
+    Company_City = req.body.company_city;
+
+    Company_RegCode = req.body.company_reg_code;
+    Company_Phone = req.body.company_phone_number;
+
+    Company_RepName = req.body.company_rep_name;
+    Company_RepPosition = req.body.company_rep_position;
+
+    //School
+    console.log(req.body.SchoolDataSwitch);
+    if(req.body.SchoolDataSwitch == "on")
+    {
+        School_Name = req.body.school_name;
+        School_Address = req.body.school_address;
+        School_ZipCode = req.body.school_zip;
+        School_City = req.body.school_city;
+
+        School_RegCode = req.body.school_reg_code;
+        School_Phone = req.body.school_phone_number;
+
+        School_RepName = req.body.school_rep_name;
+        School_RepPosition = req.body.school_rep_position;
+    }
+    else{
+
+    }
+
+    School_ContactName = req.body.school_contact_name;
+    School_ContactPosition = req.body.school_contact_position;
+    School_ContactPhone = req.body.school_contact_phone;
+
+    if(req.body.school_contact_email == "")
+    {
+        School_ContactEmail = "";
+    }
+    else if(req.body.school_contact_email == undefined)
+    {
+        School_ContactEmail = "";
+    }
+    else{
+        School_ContactEmail = "e-post " + req.body.school_contact_email;
+    }
+
+
+    if(req.body.CompanyContactDataSwitch == "on")
+    {
+        Company_ContactName = req.body.company_contact_name;
+        Company_ContactPosition = req.body.company_contact_position;
+        Company_ContactPhone = req.body.company_contact_phone;
+        Company_ContactEmail = "e-post " + req.body.company_contact_email;
+    }
+    else{
+        Company_ContactName = req.body.company_rep_name;
+        Company_ContactPosition = req.body.company_rep_position;
+        Company_ContactPhone = req.body.company_phone_number;
+        Company_ContactEmail = "";
+    }
+
+    GenerateFile()
+
+    res.download(path.join(__dirname + "/exports/finalizedContract.docx"))
+})
+
 
 app.post('/SubmitData', function (req,res) {
 
@@ -211,8 +321,8 @@ app.post('/SubmitData', function (req,res) {
     }
 
     GenerateFile()
-    
-    res.sendFile(path.join(__dirname + '/public/index.html'))
+
+    res.sdFile(path.join(__dirname + '/public/index.html'))
 })
 
 app.listen(port, () => console.log(`Application is listening at http://localhost:${port}`))
@@ -225,7 +335,7 @@ function GenerateFile() {
     const libre = require('libreoffice-convert');
 
 
-// The error object contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
+    // The error object contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
     function replaceErrors(key, value) {
         if (value instanceof Error) {
             return Object.getOwnPropertyNames(value).reduce(function(error, key) {
@@ -250,7 +360,7 @@ function GenerateFile() {
         throw error;
     }
 
-//Load the docx file as a binary
+    //Load the docx file as a binary
     var content = fs.readFileSync(path.resolve(__dirname, 'praktikaleping_template.docx'), 'binary');
 
     var zip = new PizZip(content);
@@ -262,7 +372,7 @@ function GenerateFile() {
         errorHandler(error);
     }
 
-//set the templateVariables
+    //set the templateVariables
     doc.setData({
 
         //Student
