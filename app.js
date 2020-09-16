@@ -90,7 +90,7 @@ var CurrentYear = Initialize_Date.getFullYear();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('resources'));
-
+/*
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/index.html'))
 })
@@ -107,7 +107,8 @@ app.get('/DownloadContract', function (req, res) {
     res.download(path.join(__dirname + "/exports/finalizedContract.docx"))
     ClearExports();
 })
-app.post('/devtest',function(req,res){
+*/
+app.get('/devtest',function(req,res){
     res.send("this is what i got: " + req.toString());
 })
 app.put('/', function (req,res) {
