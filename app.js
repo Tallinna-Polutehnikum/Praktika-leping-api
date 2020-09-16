@@ -108,7 +108,7 @@ app.get('/DownloadContract', function (req, res) {
     ClearExports();
 })
 app.post('/devtest',function(req,res){
-    res.download(req.body.toString());
+    res.send("this is what i got: " + req.toString());
 })
 app.put('/', function (req,res) {
 
