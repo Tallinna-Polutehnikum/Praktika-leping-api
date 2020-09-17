@@ -188,8 +188,14 @@ app.post('/', function (req,res) {
         if(req.query.company_contact_email != "")
         Company_ContactEmail = "e-post " + req.query.company_contact_email;
     
-        res.type(".docx");
-   res.send(GenerateFile());
+    try{
+        GenerateFile()
+        res.sendFile("/exports/finalizedContract");
+    }
+    catch
+    {
+
+    }
 
    
 })
@@ -320,7 +326,7 @@ function GenerateFile() {
     var buf = doc.getZip().generate({type: 'nodebuffer'});
 
     // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-   /*
+  
     fs.writeFileSync(path.resolve(__dirname, 'exports/finalizedContract.docx'), buf);
 
     if(fs.existsSync('/exports/praktikaleping_template.pdf'))
@@ -340,7 +346,7 @@ function GenerateFile() {
 
         fs.writeFileSync(outputPath, done);
     });
-    */
+    
    return buf;
 }
 
