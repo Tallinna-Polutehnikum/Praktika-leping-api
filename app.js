@@ -92,9 +92,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('resources'));
 
 app.post('/devtest',function(req,res){
-    var request = "";
-    req.query.forEach(a => request += " \n " + a.toString())
-    res.send("this is what i got: " + request);
+   
+    res.send("this is what i got: ");
 
 })
 app.post('/', function (req,res) {
@@ -189,7 +188,7 @@ app.post('/', function (req,res) {
         if(req.query.company_contact_email != "")
         Company_ContactEmail = "e-post " + req.query.company_contact_email;
     
-
+        res.type(".docx");
    res.send(GenerateFile());
 
    
