@@ -202,6 +202,7 @@ app.post('/', function (req,res) {
    
 })
 
+app.listen(port, () => console.log(`Application is listening at http://localhost:${port}`))
 
 
 function GenerateFile() {
