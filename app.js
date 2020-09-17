@@ -188,14 +188,16 @@ app.post('/', function (req,res) {
         if(req.query.company_contact_email != "")
         Company_ContactEmail = "e-post " + req.query.company_contact_email;
     
-    try{
-        GenerateFile()
-        res.sendFile("/exports/finalizedContract");
-    }
-    catch
+    try
     {
 
+        GenerateFile()
+        res.sendFile(path.join(__dirname, '/exports/finalizedContract.docx'));;
     }
+    catch 
+     {
+         res.send("error in creating the file")
+     }   
 
    
 })
