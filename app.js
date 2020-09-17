@@ -90,47 +90,30 @@ var CurrentYear = Initialize_Date.getFullYear();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('resources'));
-/*
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'))
-})
 
-app.get('/praktikaleping_template.docx', function (req, res) {
-    res.sendFile(path.join(__dirname + '/praktikaleping_template.docx'))
-})
-
-app.get('/exports/finalizedContract.pdf', function (req, res) {
-    res.sendFile(path.join(__dirname + '/exports/finalizedContract.pdf'))
-})
-
-app.get('/DownloadContract', function (req, res) {
-    res.download(path.join(__dirname + "/exports/finalizedContract.docx"))
-    ClearExports();
-})
-*/
 app.post('/devtest',function(req,res){
     var request = "";
-    req.query.foreach(a => request += " \n " + a.toString())
+    req.query.forEach(a => request += " \n " + a.toString())
     res.send("this is what i got: " + request);
 
 })
-app.put('/', function (req,res) {
+app.post('/', function (req,res) {
 
     //Student
-    Student_Name = req.body.student_name;
-    Student_Phone = req.body.student_phone_number;
+    Student_Name = req.query.student_name;
+    Student_Phone = req.query.student_phone_number;
 
-    Student_Group = req.body.student_group;
-    Student_Course = req.body.student_course;
+    Student_Group = req.query.student_group;
+    Student_Course = req.query.student_course;
 
-    Student_Address = req.body.student_address;
-    Student_ZipCode = req.body.student_zipcode;
-    Student_City = req.body.student_city;
+    Student_Address = req.query.student_address;
+    Student_ZipCode = req.query.student_zipcode;
+    Student_City = req.query.student_city;
 
     //Contract Details
-    ContractNumber = req.body.contract_number;
+    ContractNumber = req.query.contract_number;
 
-    var UserInput_StartDates = req.body.practice_date_start;
+    var UserInput_StartDates = req.query.practice_date_start;
     var StartDates = UserInput_StartDates.split("-");
 
     var LocateStartMonth = StartDates[1] - 1;
@@ -139,7 +122,7 @@ app.put('/', function (req,res) {
     Practice_DateStart = `” ` + StartDates[2] +  ` ”` + ` ` + StartMonthToText + ` ` + StartDates[0] + ` a.`;
     console.log(Practice_DateStart)
 
-    var UserInput_EndDates = req.body.practice_date_end;
+    var UserInput_EndDates = req.query.practice_date_end;
     var EndDates = UserInput_EndDates.split("-");
 
     var LocateEndMonth = EndDates[1] - 1;
@@ -151,188 +134,72 @@ app.put('/', function (req,res) {
     StartYear = StartDates[0];
     EndYear = EndDates[0];
 
-    DurationWeeks = req.body.duration_weeks;
-    DurationHours = req.body.duration_hours;
+    DurationWeeks = req.query.duration_weeks;
+    DurationHours = req.query.duration_hours;
 
     //Company
-    Company_Name = req.body.company_name;
-    Company_Address = req.body.company_address;
-    Company_ZipCode = req.body.company_zipcode;
-    Company_City = req.body.company_city;
+    Company_Name = req.query.company_name;
+    Company_Address = req.query.company_address;
+    Company_ZipCode = req.query.company_zipcode;
+    Company_City = req.query.company_city;
 
-    Company_RegCode = req.body.company_reg_code;
-    Company_Phone = req.body.company_phone_number;
+    Company_RegCode = req.query.company_reg_code;
+    Company_Phone = req.query.company_phone_number;
 
-    Company_RepName = req.body.company_rep_name;
-    Company_RepPosition = req.body.company_rep_position;
-
-    //School
-    console.log(req.body.SchoolDataSwitch);
-    if(req.body.SchoolDataSwitch == "on")
-    {
-        School_Name = req.body.school_name;
-        School_Address = req.body.school_address;
-        School_ZipCode = req.body.school_zip;
-        School_City = req.body.school_city;
-
-        School_RegCode = req.body.school_reg_code;
-        School_Phone = req.body.school_phone_number;
-
-        School_RepName = req.body.school_rep_name;
-        School_RepPosition = req.body.school_rep_position;
-    }
-    else{
-
-    }
-
-    School_ContactName = req.body.school_contact_name;
-    School_ContactPosition = req.body.school_contact_position;
-    School_ContactPhone = req.body.school_contact_phone;
-
-    if(req.body.school_contact_email == "")
-    {
-        School_ContactEmail = "";
-    }
-    else if(req.body.school_contact_email == undefined)
-    {
-        School_ContactEmail = "";
-    }
-    else{
-        School_ContactEmail = "e-post " + req.body.school_contact_email;
-    }
-
-
-    if(req.body.CompanyContactDataSwitch == "on")
-    {
-        Company_ContactName = req.body.company_contact_name;
-        Company_ContactPosition = req.body.company_contact_position;
-        Company_ContactPhone = req.body.company_contact_phone;
-        Company_ContactEmail = "e-post " + req.body.company_contact_email;
-    }
-    else{
-        Company_ContactName = req.body.company_rep_name;
-        Company_ContactPosition = req.body.company_rep_position;
-        Company_ContactPhone = req.body.company_phone_number;
-        Company_ContactEmail = "";
-    }
-
-    GenerateFile()
-
-    res.download(path.join(__dirname + "/exports/finalizedContract.docx"))
-})
-
-
-app.post('/SubmitData', function (req,res) {
-
-    //Student
-    Student_Name = req.body.student_name;
-    Student_Phone = req.body.student_phone_number;
-
-    Student_Group = req.body.student_group;
-    Student_Course = req.body.student_course;
-
-    Student_Address = req.body.student_address;
-    Student_ZipCode = req.body.student_zipcode;
-    Student_City = req.body.student_city;
-
-    //Contract Details
-    ContractNumber = req.body.contract_number;
-
-    var UserInput_StartDates = req.body.practice_date_start;
-    var StartDates = UserInput_StartDates.split("-");
-
-    var LocateStartMonth = StartDates[1] - 1;
-    var StartMonthToText = months_2[LocateStartMonth];
-
-    Practice_DateStart = `” ` + StartDates[2] +  ` ”` + ` ` + StartMonthToText + ` ` + StartDates[0] + ` a.`;
-    console.log(Practice_DateStart)
-
-    var UserInput_EndDates = req.body.practice_date_end;
-    var EndDates = UserInput_EndDates.split("-");
-
-    var LocateEndMonth = EndDates[1] - 1;
-    var EndMonthToText = months_2[LocateEndMonth];
-
-    Practice_DateEnd = `” ` + EndDates[2] +  ` ”` + ` ` + EndMonthToText + ` ` + EndDates[0] + ` a.`;
-    console.log(Practice_DateEnd)
-
-    StartYear = StartDates[0];
-    EndYear = EndDates[0];
-
-    DurationWeeks = req.body.duration_weeks;
-    DurationHours = req.body.duration_hours;
-
-    //Company
-    Company_Name = req.body.company_name;
-    Company_Address = req.body.company_address;
-    Company_ZipCode = req.body.company_zipcode;
-    Company_City = req.body.company_city;
-
-    Company_RegCode = req.body.company_reg_code;
-    Company_Phone = req.body.company_phone_number;
-
-    Company_RepName = req.body.company_rep_name;
-    Company_RepPosition = req.body.company_rep_position;
+    Company_RepName = req.query.company_rep_name;
+    Company_RepPosition = req.query.company_rep_position;
 
     //School
-    console.log(req.body.SchoolDataSwitch);
-    if(req.body.SchoolDataSwitch == "on")
+    if(req.query.school_name == null ||req.query.school_contact_name == "")
     {
-        School_Name = req.body.school_name;
-        School_Address = req.body.school_address;
-        School_ZipCode = req.body.school_zip;
-        School_City = req.body.school_city;
+        School_Name = req.query.school_name;
+        School_Address = req.query.school_address;
+        School_ZipCode = req.query.school_zip;
+        School_City = req.query.school_city;
 
-        School_RegCode = req.body.school_reg_code;
-        School_Phone = req.body.school_phone_number;
+        School_RegCode = req.query.school_reg_code;
+        School_Phone = req.query.school_phone_number;
 
-        School_RepName = req.body.school_rep_name;
-        School_RepPosition = req.body.school_rep_position;
+        School_RepName = req.query.school_rep_name;
+        School_RepPosition = req.query.school_rep_position;
     }
-    else{
+    
 
-    }
+    School_ContactName = req.query.school_contact_name;
+    School_ContactPosition = req.query.school_contact_position;
+    School_ContactPhone = req.query.school_contact_phone;
 
-    School_ContactName = req.body.school_contact_name;
-    School_ContactPosition = req.body.school_contact_position;
-    School_ContactPhone = req.body.school_contact_phone;
-
-    if(req.body.school_contact_email == "")
+    if(req.query.school_contact_email == "")
     {
         School_ContactEmail = "";
     }
-    else if(req.body.school_contact_email == undefined)
+    else if(req.query.school_contact_email == undefined)
     {
         School_ContactEmail = "";
     }
     else{
-        School_ContactEmail = "e-post " + req.body.school_contact_email;
+        School_ContactEmail = "e-post " + req.query.school_contact_email;
     }
 
 
-    if(req.body.CompanyContactDataSwitch == "on")
-    {
-        Company_ContactName = req.body.company_contact_name;
-        Company_ContactPosition = req.body.company_contact_position;
-        Company_ContactPhone = req.body.company_contact_phone;
-        Company_ContactEmail = "e-post " + req.body.company_contact_email;
-    }
-    else{
-        Company_ContactName = req.body.company_rep_name;
-        Company_ContactPosition = req.body.company_rep_position;
-        Company_ContactPhone = req.body.company_phone_number;
-        Company_ContactEmail = "";
-    }
+ 
+        Company_ContactName = req.query.company_contact_name;
+        Company_ContactPosition = req.query.company_contact_position;
+        Company_ContactPhone = req.query.company_contact_phone;
+        if(req.query.company_contact_email != "")
+        Company_ContactEmail = "e-post " + req.query.company_contact_email;
+    
 
-    GenerateFile()
+   res.send(GenerateFile());
 
-    res.sdFile(path.join(__dirname + '/public/index.html'))
+   
 })
+
 
 app.listen(port, () => console.log(`Application is listening at http://localhost:${port}`))
 
 function GenerateFile() {
-
+    
     var PizZip = require('pizzip');
     var Docxtemplater = require('docxtemplater');
 
@@ -454,6 +321,7 @@ function GenerateFile() {
     var buf = doc.getZip().generate({type: 'nodebuffer'});
 
     // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
+   /*
     fs.writeFileSync(path.resolve(__dirname, 'exports/finalizedContract.docx'), buf);
 
     if(fs.existsSync('/exports/praktikaleping_template.pdf'))
@@ -473,6 +341,8 @@ function GenerateFile() {
 
         fs.writeFileSync(outputPath, done);
     });
+    */
+   return buf;
 }
 
 function ClearExports() {
