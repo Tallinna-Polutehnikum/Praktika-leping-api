@@ -185,8 +185,9 @@ app.post('/', function (req,res) {
         Company_ContactName = req.query.company_contact_name;
         Company_ContactPosition = req.query.company_contact_position;
         Company_ContactPhone = req.query.company_contact_phone;
-        if(req.query.company_contact_email != "")
+        if(req.query.company_contact_email != "" && req.query.company_contact_email != null)
         Company_ContactEmail = "e-post " + req.query.company_contact_email;
+        else Company_ContactEmail = ""; 
     
     try
     {
