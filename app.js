@@ -192,7 +192,7 @@ app.post('/', function (req,res) {
     {
 
         GenerateFile()
-        res.sendFile(path.join(__dirname, '/exports/finalizedContract.docx'));;
+        res.download(path.join(__dirname, '/exports/finalizedContract.docx'));;
     }
     catch 
      {
