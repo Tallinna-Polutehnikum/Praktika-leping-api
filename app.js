@@ -149,7 +149,7 @@ app.post('/', function (req,res) {
     Company_RepPosition = req.query.company_rep_position;
 
     //School
-    if(req.query.school_info_bool == "jah (läheb vormi lõppu)")
+    if(req.query.school_info_bool != "jah (läheb vormi lõppu)")
     {
         School_Name = req.query.school_name;
         School_Address = req.query.school_address;
