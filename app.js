@@ -92,7 +92,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('resources'));
 
 app.post('/devtest',function(req,res){
-   
+
     res.send("this is what i got: ");
 
 })
@@ -149,7 +149,7 @@ app.post('/', function (req,res) {
     Company_RepPosition = req.query.company_rep_position;
 
     //School
-    if(req.query.school_name == null ||req.query.school_contact_name == "")
+    if(req.query.school_info_bool.includes("jah"))
     {
         School_Name = req.query.school_name;
         School_Address = req.query.school_address;
@@ -162,7 +162,7 @@ app.post('/', function (req,res) {
         School_RepName = req.query.school_rep_name;
         School_RepPosition = req.query.school_rep_position;
     }
-    
+
 
     School_ContactName = req.query.school_contact_name;
     School_ContactPosition = req.query.school_contact_position;
@@ -181,33 +181,33 @@ app.post('/', function (req,res) {
     }
 
 
- 
-        Company_ContactName = req.query.company_contact_name;
-        Company_ContactPosition = req.query.company_contact_position;
-        Company_ContactPhone = req.query.company_contact_phone;
-        if(req.query.company_contact_email != "" && req.query.company_contact_email != null)
+
+    Company_ContactName = req.query.company_contact_name;
+    Company_ContactPosition = req.query.company_contact_position;
+    Company_ContactPhone = req.query.company_contact_phone;
+    if(req.query.company_contact_email != "" && req.query.company_contact_email != null)
         Company_ContactEmail = "e-post " + req.query.company_contact_email;
-        else Company_ContactEmail = ""; 
-    
+    else Company_ContactEmail = "";
+
     try
     {
 
         GenerateFile()
         res.download(path.join(__dirname, '/exports/finalizedContract.docx'));;
     }
-    catch 
-     {
-         res.send("error in creating the file")
-     }   
+    catch
+    {
+        res.send("error in creating the file")
+    }
 
-   
+
 })
 
 app.listen(port, () => console.log(`Application is listening at http://localhost:${port}`))
 
 
 function GenerateFile() {
-    
+
     var PizZip = require('pizzip');
     var Docxtemplater = require('docxtemplater');
 
@@ -329,7 +329,7 @@ function GenerateFile() {
     var buf = doc.getZip().generate({type: 'nodebuffer'});
 
     // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-  
+
     fs.writeFileSync(path.resolve(__dirname, 'exports/finalizedContract.docx'), buf);
 
     if(fs.existsSync('/exports/praktikaleping_template.pdf'))
@@ -349,8 +349,8 @@ function GenerateFile() {
 
         fs.writeFileSync(outputPath, done);
     });
-    
-   return buf;
+
+    return buf;
 }
 
 function ClearExports() {
